@@ -2,9 +2,9 @@ import * as React from 'react';
 import dayjs from 'dayjs';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers';
-import { Grid } from '@mui/material';
+import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
+import { Grid, IconButton, TextField } from '@mui/material';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
 export default function BasicDateTimePicker() {
   const [checkInDate, setCheckInDate] = React.useState(
@@ -15,35 +15,42 @@ export default function BasicDateTimePicker() {
 
   const handleCheckInChange = (date) => {
     setCheckInDate(date);
-    setCheckOutOpen(true); // Open the "Check-out" date picker
+    setCheckOutOpen(true);
   };
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <Grid container>
-        <Grid item xs={6}>
+      <Grid container justifyContent="center" alignItems="center">
+        <Grid item xs={5}>
           <DemoContainer components={['DatePicker']}>
             <DatePicker
-              label="Start-Date"
+              label="Check-in"
               value={checkInDate}
               onChange={handleCheckInChange}
-              maxDate={dayjs()} // restrict future dates
+              maxDate={dayjs()}
+              renderInput={(params) => <TextField {...params} readOnly />}
             />
           </DemoContainer>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item>
+          <IconButton>
+            <ArrowForwardIosIcon />
+          </IconButton>
+        </Grid>
+        <Grid item xs={5}>
           <DemoContainer components={['DatePicker']}>
             <DatePicker
-              label="End-Date"
+              label="Check-out"
               minDate={checkInDate}
-              maxDate={dayjs()} // restrict future dates
+              maxDate={dayjs()}
               value={checkOutDate}
               onChange={(date) => {
                 setCheckOutDate(date);
-                setCheckOutOpen(false); // Close after selecting a date
+                setCheckOutOpen(false);
               }}
               open={isCheckOutOpen}
-              onDismiss={() => setCheckOutOpen(false)} // Close when dismissed
+              onDismiss={() => setCheckOutOpen(false)}
+              renderInput={(params) => <TextField {...params} readOnly />}
             />
           </DemoContainer>
         </Grid>
