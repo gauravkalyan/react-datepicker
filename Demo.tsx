@@ -42,7 +42,7 @@ export default function BasicDateTimePicker() {
               maxDate={dayjs().subtract(1, 'day')}
               onAccept={handleCheckInAccept}
               onClose={handleCheckInAccept}
-              components={{
+              slots={{
                 textField: ReadOnlyTextField,
               }}
             />
@@ -60,10 +60,11 @@ export default function BasicDateTimePicker() {
               value={checkOutDate}
               onChange={handleCheckOutChange}
               minDate={checkInDate.add(1, 'day')}
+              maxDate={dayjs().subtract(0, 'day')}
               open={isCheckOutOpen}
               onOpen={() => setCheckOutOpen(true)}
               onClose={() => setCheckOutOpen(false)}
-              components={{
+              slots={{
                 textField: ReadOnlyTextField,
               }}
             />
