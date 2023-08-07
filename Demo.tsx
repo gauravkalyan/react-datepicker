@@ -38,7 +38,7 @@ export default function BasicDateTimePicker() {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Grid container justifyContent="center" alignItems="center" spacing={2}>
-        <Grid item xs={5}>
+        <Grid item>
           <DemoContainer components={['DatePicker']}>
             <DatePicker
               label="Check-in"
@@ -58,7 +58,7 @@ export default function BasicDateTimePicker() {
             <ArrowForwardIosIcon />
           </Box>
         </Grid>
-        <Grid item xs={5}>
+        <Grid item>
           <DemoContainer components={['DatePicker']}>
             <DatePicker
               label="Check-out"
