@@ -1,0 +1,26 @@
+{
+  "name": "riqx3h--run",
+  "version": "0.0.0",
+  "private": true,
+  "dependencies": {
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "@mui/x-date-pickers": "6.11.0",
+    "dayjs": "1.11.9",
+    "@emotion/react": "11.11.1",
+    "@emotion/styled": "11.11.0",
+    "@mui/material": "5.14.3",
+    "@types/react": "18.2.18",
+    "@types/react-dom": "18.2.7",
+    "typescript": "5.1.6"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "react-scripts": "latest"
+  }
+}
