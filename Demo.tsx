@@ -1,29 +1,38 @@
 import * as React from 'react';
-import dayjs from 'dayjs';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
-import { Grid, IconButton, TextField } from '@mui/material';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers';
+import { Grid, TextField, Box } from '@mui/material';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import dayjs, { Dayjs } from 'dayjs';
 
 export default function BasicDateTimePicker() {
-  const [checkInDate, setCheckInDate] = React.useState(
-    dayjs().subtract(7, 'day')
+  const [checkInDate, setCheckInDate] = React.useState<Dayjs>(
+    dayjs().subtract(8, 'day')
   );
-  const [checkOutDate, setCheckOutDate] = React.useState(dayjs());
+  const [checkOutDate, setCheckOutDate] = React.useState<Dayjs>(
+    dayjs().subtract(1, 'day')
+  );
   const [isCheckOutOpen, setCheckOutOpen] = React.useState(false);
-  const [shouldOpenCheckout, setShouldOpenCheckout] = React.useState(false);
 
-  const ReadOnlyTextField = (props) => <TextField {...props} readOnly />;
-
-  const handleCheckInChange = (date) => {
-    setCheckInDate(date);
-    setShouldOpenCheckout(true);
+  const handleCheckInChange = (date: Dayjs | null) => {
+    if (date) setCheckInDate(date);
   };
+
+  const handleCheckOutChange = (date: Dayjs | null) => {
+    if (date) setCheckOutDate(date);
+  };
+
+  const handleCheckInAccept = () => {
+    setCheckOutOpen(true);
+  };
+
+  const ReadOnlyTextField = (props: any) => <TextField {...props} readOnly />;
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <Grid container justifyContent="center" alignItems="center">
+      <Grid container justifyContent="center" alignItems="center" spacing={2}>
         <Grid item xs={5}>
           <DemoContainer components={['DatePicker']}>
             <DatePicker
@@ -31,34 +40,28 @@ export default function BasicDateTimePicker() {
               value={checkInDate}
               onChange={handleCheckInChange}
               maxDate={dayjs().subtract(1, 'day')}
+              onAccept={handleCheckInAccept}
+              onClose={handleCheckInAccept}
               components={{
                 textField: ReadOnlyTextField,
-              }}
-              onClose={() => {
-                if (shouldOpenCheckout) {
-                  setCheckOutOpen(true);
-                  setShouldOpenCheckout(false);
-                }
               }}
             />
           </DemoContainer>
         </Grid>
         <Grid item>
-          <IconButton>
+          <Box display="flex" alignItems="center">
             <ArrowForwardIosIcon />
-          </IconButton>
+          </Box>
         </Grid>
         <Grid item xs={5}>
           <DemoContainer components={['DatePicker']}>
             <DatePicker
               label="Check-out"
-              minDate={checkInDate}
-              maxDate={dayjs()}
               value={checkOutDate}
-              onChange={(date) => {
-                setCheckOutDate(date);
-              }}
+              onChange={handleCheckOutChange}
+              minDate={checkInDate.add(1, 'day')}
               open={isCheckOutOpen}
+              onOpen={() => setCheckOutOpen(true)}
               onClose={() => setCheckOutOpen(false)}
               components={{
                 textField: ReadOnlyTextField,
