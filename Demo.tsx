@@ -12,23 +12,34 @@ export default function BasicDateTimePicker() {
   );
   const [checkOutDate, setCheckOutDate] = React.useState(dayjs());
   const [isCheckOutOpen, setCheckOutOpen] = React.useState(false);
+  const [shouldOpenCheckout, setShouldOpenCheckout] = React.useState(false);
+
+  const ReadOnlyTextField = (props) => <TextField {...props} readOnly />;
 
   const handleCheckInChange = (date) => {
     setCheckInDate(date);
-    setCheckOutOpen(true);
+    setShouldOpenCheckout(true);
   };
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Grid container justifyContent="center" alignItems="center">
-        <Grid item>
+        <Grid item xs={5}>
           <DemoContainer components={['DatePicker']}>
             <DatePicker
               label="Check-in"
               value={checkInDate}
               onChange={handleCheckInChange}
-              maxDate={dayjs()}
-              renderInput={(params) => <TextField {...params} readOnly />}
+              maxDate={dayjs().subtract(1, 'day')}
+              components={{
+                textField: ReadOnlyTextField,
+              }}
+              onClose={() => {
+                if (shouldOpenCheckout) {
+                  setCheckOutOpen(true);
+                  setShouldOpenCheckout(false);
+                }
+              }}
             />
           </DemoContainer>
         </Grid>
@@ -37,7 +48,7 @@ export default function BasicDateTimePicker() {
             <ArrowForwardIosIcon />
           </IconButton>
         </Grid>
-        <Grid item>
+        <Grid item xs={5}>
           <DemoContainer components={['DatePicker']}>
             <DatePicker
               label="Check-out"
@@ -46,11 +57,12 @@ export default function BasicDateTimePicker() {
               value={checkOutDate}
               onChange={(date) => {
                 setCheckOutDate(date);
-                setCheckOutOpen(false);
               }}
               open={isCheckOutOpen}
-              onDismiss={() => setCheckOutOpen(false)}
-              renderInput={(params) => <TextField {...params} readOnly />}
+              onClose={() => setCheckOutOpen(false)}
+              components={{
+                textField: ReadOnlyTextField,
+              }}
             />
           </DemoContainer>
         </Grid>
