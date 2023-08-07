@@ -17,7 +17,12 @@ export default function BasicDateTimePicker() {
   const [isCheckOutOpen, setCheckOutOpen] = React.useState(false);
 
   const handleCheckInChange = (date: Dayjs | null) => {
-    if (date) setCheckInDate(date);
+    if (date) {
+      setCheckInDate(date);
+      if (date.isSame(checkOutDate) || date.isAfter(checkOutDate)) {
+        setCheckOutDate(date.add(1, 'day'));
+      }
+    }
   };
 
   const handleCheckOutChange = (date: Dayjs | null) => {
